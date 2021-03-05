@@ -1,10 +1,17 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <Tasks :tasks="tasks" />
+    <Tasks @delete-task="deleteTask" :tasks="tasks" />
     <!-- 
-      To understand better: https://vuejs.org/v2/guide/syntax.html
+      To understand :tasks="task" better: https://vuejs.org/v2/guide/syntax.html
       Basically, mustache {{}} sintaxe can't be used with html attributes, so you use binds instead.
+     -->
+
+     <!--
+        (https://vuejs.org/v2/guide/events.html#Method-Event-Handlers)
+        The deleteTask without () will pass the event object itself as the first paremeter, which in this case is the "id" coming from Tasks emit.
+        With (), you can pass none or custom paremeters to the function.       
+        Extra: (https://forum.vuejs.org/t/difference-when-calling-a-method-function-with-or-without-brackets/41764/4)
      -->
   </div>
 </template>
@@ -23,6 +30,11 @@ export default {
     return {
       tasks: []
     }
+  },
+  methods: {
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id);
+    },
   },
   created() {
     this.tasks = [
