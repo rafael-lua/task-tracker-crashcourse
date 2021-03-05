@@ -1,6 +1,6 @@
 <template>
   <div v-for="task in tasks" :key="task.id">
-    <Task @delete-task="$emit('delete-task', task.id)" :task="task" />
+    <Task @toggle-reminder="$emit('toggle-reminder', task.id)" @delete-task="$emit('delete-task', task.id)" :task="task" />
     <!-- to use $emit here, you need to declared the emits array in the component script. -->
   </div>
   <!-- "When using v-for, vue expects a unique key for each iteration" - Explains the :key bind -->
@@ -17,6 +17,6 @@ export default {
   components: {
     Task
   },
-  emits: ["delete-task"]
+  emits: ["delete-task", "toggle-reminder"]
 }
 </script>

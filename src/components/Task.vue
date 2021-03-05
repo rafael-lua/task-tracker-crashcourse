@@ -1,7 +1,7 @@
 <template>
-  <div :class="[task.remainder ? 'remainder' : '', 'task']">
+  <div @dblclick="$emit('toggle-reminder')" :class="[task.reminder ? 'reminder' : '', 'task']">
     <h3>{{ task.text }}
-      <i @click="onDelete(task.id)" class="fas fa-times"></i>
+      <i @click="$emit('delete-task')" class="fas fa-times"></i>
     </h3>
     <p>{{ task.day }}</p>
   </div>
@@ -13,11 +13,8 @@ export default {
   props: {
     task: Object
   },
-  methods: {
-    onDelete(id) {
-      this.$emit("delete-task", id); // Emits a custom event upwards to its parent (Next level up - Tasks.vue)
-    }
-  }
+  emits: ["delete-task", "toggle-reminder"]
+
 }
 </script>
 
@@ -31,7 +28,7 @@ export default {
   padding: 10px 20px;
   cursor: pointer;
 }
-.task.remainder {
+.task.reminder {
   border-left: 5px solid green;
 }
 .task h3 {

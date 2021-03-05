@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
-    <Tasks @delete-task="deleteTask" :tasks="tasks" />
+    <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
     <!-- 
       To understand :tasks="task" better: https://vuejs.org/v2/guide/syntax.html
       Basically, mustache {{}} sintaxe can't be used with html attributes, so you use binds instead.
@@ -35,6 +35,13 @@ export default {
     deleteTask(id) {
       this.tasks = this.tasks.filter((task) => task.id !== id);
     },
+    toggleReminder(id) {
+      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task);
+      // Explanation: console.log({...this.tasks[0], reminder: false, reminder: true});
+      // Basically, the spread "..." syntax will expand the "task" object literal to the new object. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#syntax)
+      // Then the repeated key declaration will set the "reminder" to a new value.
+      // You can also just expand the arrow function with returns and make the change. Like: task.reminder = !t.reminder; return task;
+    }  
   },
   created() {
     this.tasks = [
@@ -42,19 +49,19 @@ export default {
         id: 1,
         text: "Doctors Appointment",
         day: "March 1st at 2:30pm",
-        remainder: true,
+        reminder: true,
       },
       {
         id: 2,
         text: "Meeting at School",
         day: "March 3rd at 1:30pm",
-        remainder: true,
+        reminder: true,
       },
       {
         id: 3,
         text: "Food Shopping",
         day: "March 3rd at 11:00am",
-        remainder: false,
+        reminder: false,
       }
     ];
   }
