@@ -57,7 +57,14 @@ export default {
       this.showAddTask = !this.showAddTask;
     },
     async fetchTasks() {
-      const res = await fetch("http://localhost:5000/tasks");
+      const res = await fetch("api/tasks");
+      const data = await res.json();
+      return data;
+    },
+    async fetchTask(id) {
+      // Backticks explanation: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+
+      const res = await fetch(`api/tasks/${id}`);
       const data = await res.json();
       return data;
     }
