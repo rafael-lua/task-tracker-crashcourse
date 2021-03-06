@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracker" />
+    <AddTask @add-task="addTask" />
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
     <!-- 
       To understand :tasks="task" better: https://vuejs.org/v2/guide/syntax.html
@@ -19,12 +20,14 @@
 <script>
 import Header from "./components/Header"
 import Tasks from "./components/Tasks"
+import AddTask from "./components/AddTask"
 
 export default {
   name: 'App',
   components: {
     Header,
-    Tasks
+    Tasks,
+    AddTask
   },
   data() {
     return {
@@ -32,6 +35,7 @@ export default {
     }
   },
   methods: {
+    // Method have access to the data through the "this" keyword
     deleteTask(id) {
       this.tasks = this.tasks.filter((task) => task.id !== id);
     },
@@ -41,7 +45,11 @@ export default {
       // Basically, the spread "..." syntax will expand the "task" object literal to the new object. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#syntax)
       // Then the repeated key declaration will set the "reminder" to a new value.
       // You can also just expand the arrow function with returns and make the change. Like: task.reminder = !t.reminder; return task;
-    }  
+    },
+    addTask(task) {
+      this.tasks = [...this.tasks, task];
+    }
+
   },
   created() {
     this.tasks = [
