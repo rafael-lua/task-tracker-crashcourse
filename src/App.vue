@@ -42,14 +42,26 @@ export default {
     // Method have access to the data through the "this" keyword
     async deleteTask(id) {
       const res = await fetch(`api/tasks/${id}`, {
-        method: "delete"
+        method: "DELETE"
       });
 
       res.status === 200 ? this.tasks = this.tasks.filter((task) => task.id !== id) : alert("Error deleting task");
 
     },
-    toggleReminder(id) {
-      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task);
+    async toggleReminder(id) {
+      const taskToToggle = await this.fetchTask(id);
+      const updTask = {...taskToToggle, reminder: !taskToToggle.reminder};
+
+      const res = await fetch(`api/tasks/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(updTask)
+      });
+      const data = await res.json();
+
+      this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: data.reminder} : task);
       // Explanation: console.log({...this.tasks[0], reminder: false, reminder: true});
       // Basically, the spread "..." syntax will expand the "task" object literal to the new object. (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#syntax)
       // Then the repeated key declaration will set the "reminder" to a new value.
