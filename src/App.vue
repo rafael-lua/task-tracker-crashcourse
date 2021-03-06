@@ -50,7 +50,15 @@ export default {
       // Then the repeated key declaration will set the "reminder" to a new value.
       // You can also just expand the arrow function with returns and make the change. Like: task.reminder = !t.reminder; return task;
     },
-    addTask(task) {
+    async addTask(task) {
+      const res = await fetch("api/tasks", {
+        method: "post",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(task)
+      });
+      const data = await res.json();
       this.tasks = [...this.tasks, task];
     },
     toggleAddTask() {

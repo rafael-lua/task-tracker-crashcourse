@@ -49,7 +49,7 @@ export default {
       }
 
       const newTask = {
-        id: Math.floor(Math.random() * 100000),
+        // id: Math.floor(Math.random() * 100000), // json-server adds an id automatically
         text: this.text,
         day: this.day,
         reminder: this.reminder
