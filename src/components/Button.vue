@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick()" :style="{ background: color }" class="btn">{{text}}</button> <!-- @click is a directive to v-on:click -->
+  <button @click="$emit('btn-click')" :style="{ background: color }" class="btn">{{text}}</button> <!-- @click is a directive to v-on:click -->
 </template>
 
 <script>
@@ -9,10 +9,6 @@ export default {
     text: String,
     color: String
   },
-  methods: {
-    onClick() {
-      console.log("clicked");
-    }
-  }
+  emits: [ "btn-click" ]
 }
 </script>

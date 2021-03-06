@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <Header title="Task Tracker" />
-    <AddTask @add-task="addTask" />
+    <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :styleAddTask="showAddTask" />
+    <div v-if="showAddTask">
+      <!-- v-if is conditional for rendering the block (https://v3.vuejs.org/guide/conditional.html) -->
+      <AddTask @add-task="addTask" />
+    </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task="deleteTask" :tasks="tasks" />
     <!-- 
       To understand :tasks="task" better: https://vuejs.org/v2/guide/syntax.html
@@ -31,7 +34,8 @@ export default {
   },
   data() {
     return {
-      tasks: []
+      tasks: [],
+      showAddTask: false
     }
   },
   methods: {
@@ -48,6 +52,9 @@ export default {
     },
     addTask(task) {
       this.tasks = [...this.tasks, task];
+    },
+    toggleAddTask() {
+      this.showAddTask = !this.showAddTask;
     }
 
   },
