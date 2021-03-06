@@ -40,8 +40,13 @@ export default {
   },
   methods: {
     // Method have access to the data through the "this" keyword
-    deleteTask(id) {
-      this.tasks = this.tasks.filter((task) => task.id !== id);
+    async deleteTask(id) {
+      const res = await fetch(`api/tasks/${id}`, {
+        method: "delete"
+      });
+
+      res.status === 200 ? this.tasks = this.tasks.filter((task) => task.id !== id) : alert("Error deleting task");
+
     },
     toggleReminder(id) {
       this.tasks = this.tasks.map((task) => task.id === id ? {...task, reminder: !task.reminder} : task);
